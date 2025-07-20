@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Churn Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: auto;
+        }
+        h2 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        .result {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 26px;
+            font-weight: bold;
+            color: #003366;
+        }
+        input[type="submit"] {
+            background-color: #0066cc;
+            color: white;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        input[type="submit"]:hover {
+            background-color: #004999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Customer Churn Prediction</h2>
+        <form method="POST" action="/predict">
+            <label>Gender:</label>
+            <select name="gender">
+                <option value="Male" {{ 'selected' if form_data.get('gender') == 'Male' }}>Male</option>
+                <option value="Female" {{ 'selected' if form_data.get('gender') == 'Female' }}>Female</option>
+            </select>
+
+            <label>Senior Citizen:</label>
+            <select name="SeniorCitizen">
+                <option value="0" {{ 'selected' if form_data.get('SeniorCitizen') == '0' }}>No</option>
+                <option value="1" {{ 'selected' if form_data.get('SeniorCitizen') == '1' }}>Yes</option>
+            </select>
+
+            <label>Partner:</label>
+            <select name="Partner">
+                <option value="Yes" {{ 'selected' if form_data.get('Partner') == 'Yes' }}>Yes</option>
+                <option value="No" {{ 'selected' if form_data.get('Partner') == 'No' }}>No</option>
+            </select>
+
+            <label>Dependents:</label>
+            <select name="Dependents">
+                <option value="Yes" {{ 'selected' if form_data.get('Dependents') == 'Yes' }}>Yes</option>
+                <option value="No" {{ 'selected' if form_data.get('Dependents') == 'No' }}>No</option>
+            </select>
+
+            <label>Phone Service:</label>
+            <select name="PhoneService">
+                <option value="Yes" {{ 'selected' if form_data.get('PhoneService') == 'Yes' }}>Yes</option>
+                <option value="No" {{ 'selected' if form_data.get('PhoneService') == 'No' }}>No</option>
+            </select>
+
+            <label>Monthly Charges:</label>
+            <input type="text" name="MonthlyCharges" value="{{ form_data.get('MonthlyCharges', '') }}">
+
+            <label>Total Charges:</label>
+            <input type="text" name="TotalCharges" value="{{ form_data.get('TotalCharges', '') }}">
+
+            <label>Internet Service:</label>
+            <select name="InternetService">
+                <option value="DSL" {{ 'selected' if form_data.get('InternetService') == 'DSL' }}>DSL</option>
+                <option value="Fiber optic" {{ 'selected' if form_data.get('InternetService') == 'Fiber optic' }}>Fiber optic</option>
+                <option value="No" {{ 'selected' if form_data.get('InternetService') == 'No' }}>No</option>
+            </select>
+
+            <label>Contract:</label>
+            <select name="Contract">
+                <option value="Month-to-month" {{ 'selected' if form_data.get('Contract') == 'Month-to-month' }}>Month-to-month</option>
+                <option value="One year" {{ 'selected' if form_data.get('Contract') == 'One year' }}>One year</option>
+                <option value="Two year" {{ 'selected' if form_data.get('Contract') == 'Two year' }}>Two year</option>
+            </select>
+
+            <input type="submit" value="Predict">
+        </form>
+
+        {% if prediction %}
+        <div class="result">
+            WILL THE CUSTOMER CHURN? 
+            <span style="color: {% if prediction == 'Churn' %}red{% else %}green{% endif %};">
+                {{ prediction.upper() }}
+            </span>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
